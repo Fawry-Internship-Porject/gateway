@@ -31,6 +31,8 @@ public class SecurityConfig {
                         .requestMatchers("/ldap/**").authenticated()
                         .requestMatchers("/logout", "/login").permitAll()
                         .requestMatchers("/users/**").hasRole("EMPLOYEES")
+                        .requestMatchers("/employee/**").hasAnyRole("EMPLOYEES","MANAGERS")
+                        .requestMatchers("/manager/**").hasAnyRole("COMPANYMANAGERS","MANAGERS")
                         .requestMatchers("/mngrs/**").hasRole("MANAGERS")
                         .requestMatchers("/cmngrs/**").hasRole("COMPANYMANAGERS")
                         .anyRequest().authenticated()
