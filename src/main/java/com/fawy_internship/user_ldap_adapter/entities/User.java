@@ -24,9 +24,6 @@ public class User {
     }
 
     public User(String username, String password) {
-        this.dn = LdapNameBuilder.newInstance("ou=users")
-                .add("userid", username)
-                .build();
         this.username = username;
         this.password = password;
     }

@@ -28,11 +28,11 @@ public class SecurityConfig {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/ldap/**").authenticated()
                         .requestMatchers("/logout", "/login").permitAll()
                         .requestMatchers("/users/**").hasRole("EMPLOYEES")
                         .requestMatchers("/mngrs/**").hasRole("MANAGERS")
                         .requestMatchers("/cmngrs/**").hasRole("COMPANYMANAGERS")
-
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
