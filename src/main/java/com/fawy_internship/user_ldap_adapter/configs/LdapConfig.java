@@ -21,6 +21,11 @@ public class LdapConfig {
 
     @Bean
     public LdapTemplate ldapTemplate() {
+        return new LdapTemplate(contextSource());
+    }
+
+    @Bean
+    public LdapContextSource contextSource() {
         LdapContextSource contextSource = new LdapContextSource();
 
         contextSource.setUrl(url);
@@ -29,6 +34,6 @@ public class LdapConfig {
         contextSource.setPassword(password);
         contextSource.afterPropertiesSet();
 
-        return new LdapTemplate(contextSource);
+        return contextSource;
     }
 }

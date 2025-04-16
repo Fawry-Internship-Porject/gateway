@@ -8,8 +8,7 @@ import org.springframework.ldap.support.LdapNameBuilder;
 import javax.naming.Name;
 
 @Entry(
-        base = "ou=users",
-        objectClasses = { "user", "top" }
+        base = "ou=users", objectClasses = { "user", "top" }
 )
 public class User {
     @Id
