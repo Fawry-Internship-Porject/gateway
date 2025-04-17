@@ -6,5 +6,6 @@ import org.springframework.data.ldap.repository.LdapRepository;
 import java.util.Optional;
 
 public interface UserRepository extends LdapRepository<User> {
+    void deleteByUsername(String username);
     Optional<User> findByUsername(String username);
 }

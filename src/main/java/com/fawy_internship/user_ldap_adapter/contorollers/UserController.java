@@ -15,10 +15,20 @@ public class UserController {
     private UserService userService;
 
     @PostMapping
-    public ResponseEntity<?> add(@RequestBody UserDTO userDTO) {
+    public ResponseEntity<?> add(@RequestBody UserDTO userDTO) throws Exception {
+        this.userService.add(userDTO.getUsername(), userDTO.getPassword(), userDTO.getRole());
+        return ResponseEntity.ok(Map.of("message", "User added successfully"));
+    }
 
-            this.userService.add(userDTO.getUsername(), userDTO.getPassword(), userDTO.getRole());
-            return ResponseEntity.ok(Map.of("message", "User added successfully"));
+    @PutMapping("/{username}")
+    public ResponseEntity<?> update(@PathVariable String username, @RequestBody UserDTO userDTO) {
+        userService.modify(username, userDTO.getPassword(), userDTO.getRole());
+        return ResponseEntity.ok(Map.of("message", "User updated successfully"));
+    }
 
+    @DeleteMapping("/{username}")
+    public ResponseEntity<?> delete(@PathVariable String username) {
+        userService.delete(username);
+        return ResponseEntity.ok(Map.of("message", "User deleted successfully"));
     }
 }
