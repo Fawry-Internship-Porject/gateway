@@ -90,6 +90,9 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.GET, "/roles/{name}/{level}/kpis").hasRole("COMPANYMANAGERS")
                                 .requestMatchers(HttpMethod.DELETE, "/roles/{id:[\\d]+}").hasRole("COMPANYMANAGERS")
 
+                                // === REPORT ROUTES ===
+                                .requestMatchers(HttpMethod.GET, "/api/reports/download/cycle/{id:[\\d]+}")
+                                .hasRole("COMPANYMANAGERS")
 
 
 
