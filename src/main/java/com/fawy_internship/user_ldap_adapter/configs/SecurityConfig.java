@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
+import org.springframework.security.authorization.AuthorizationDecision;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -28,13 +29,16 @@ public class SecurityConfig {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/ldap/**").authenticated()
+                        .requestMatchers("/ldap/**").access((authentication, context) -> {
+                            String gatewayHeader = context.getRequest().getHeader("X-GATEWAY-AUTH");
+                            return "my-secret-token".equals(gatewayHeader)
+                                    ? new AuthorizationDecision(true)
+                                    : new AuthorizationDecision(false);
+                        })
                         .requestMatchers("/logout", "/login").permitAll()
                         .requestMatchers("/users/**").hasRole("EMPLOYEES")
-                        .requestMatchers("/employee/**").hasAnyRole("EMPLOYEES","MANAGERS")
-                        .requestMatchers("/manager/**").hasAnyRole("COMPANYMANAGERS","MANAGERS")
-                        .requestMatchers("/mngrs/**").hasRole("MANAGERS")
-                        .requestMatchers("/cmngrs/**").hasRole("COMPANYMANAGERS")
+                        .requestMatchers("/employee/**").hasAnyRole("EMPLOYEES", "MANAGERS")
+                        .requestMatchers("/manager/**").hasAnyRole("COMPANYMANAGERS", "MANAGERS")
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
