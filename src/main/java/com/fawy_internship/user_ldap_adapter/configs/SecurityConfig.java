@@ -3,6 +3,7 @@ package com.fawy_internship.user_ldap_adapter.configs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -39,7 +40,60 @@ public class SecurityConfig {
                         .requestMatchers("/users/**").hasRole("EMPLOYEES")
                         .requestMatchers("/employee/**").hasAnyRole("EMPLOYEES", "MANAGERS")
                         .requestMatchers("/manager/**").hasAnyRole("COMPANYMANAGERS", "MANAGERS")
-                        .anyRequest().authenticated()
+
+
+
+                        // CYCLES
+                        .requestMatchers("/cycles").hasRole("COMPANYMANAGERS")
+                        .requestMatchers("/cycles/Asc").hasRole("COMPANYMANAGERS")
+                        .requestMatchers("/cycles/Desc").hasRole("COMPANYMANAGERS")
+                        .requestMatchers("/cycles/pass/**").hasRole("COMPANYMANAGERS")
+                        .requestMatchers("/cycles/close/**").hasRole("COMPANYMANAGERS")
+                        .requestMatchers("/cycles/open/**").hasRole("COMPANYMANAGERS")
+                        .requestMatchers("/cycles/{id:[\\d]+}").hasAnyRole("COMPANYMANAGERS", "MANAGERS", "EMPLOYEES")
+                        .requestMatchers("/cycles/Latest").hasAnyRole("COMPANYMANAGERS", "MANAGERS", "EMPLOYEES")
+
+
+                        // === KPI ACCESS CONTROL ===
+                        .requestMatchers("/kpis/{userId:[\\d]+}").hasRole("COMPANYMANAGERS")
+                        .requestMatchers("/kpis/{id:[\\d]+}/cycle/{cycleId:[\\d]+}").hasRole("COMPANYMANAGERS")
+                        .requestMatchers("/kpis/{kpiId:[\\d]+}/role/**").hasRole("COMPANYMANAGERS")
+                        .requestMatchers("/kpis/{id:[\\d]+}").hasAnyRole("COMPANYMANAGERS", "MANAGERS", "EMPLOYEES")
+                        .requestMatchers("/kpis/cycle/{cycleId:[\\d]+}").hasAnyRole("COMPANYMANAGERS", "MANAGERS", "EMPLOYEES")
+                        .requestMatchers("/kpis").hasAnyRole("COMPANYMANAGERS", "MANAGERS", "EMPLOYEES")
+                        .requestMatchers("/kpis/{id:[\\d]+}").hasRole("COMPANYMANAGERS")
+
+                        // === OBJECTIVE ROUTES ===
+
+                        .requestMatchers(HttpMethod.POST, "/objectives").hasRole("MANAGERS")
+                        .requestMatchers(HttpMethod.PUT, "/objectives/{id:[\\d]+}").hasRole("MANAGERS")
+                        .requestMatchers(HttpMethod.DELETE, "/objectives/{assignId:[\\d]+}/{objectiveId:[\\d]+}").hasRole("MANAGERS")
+                        .requestMatchers(HttpMethod.GET, "/objectives/{id:[\\d]+}").hasAnyRole("COMPANYMANAGERS", "MANAGERS", "EMPLOYEES")
+                        .requestMatchers(HttpMethod.PUT, "/objectives/state/{id:[\\d]+}/complete").hasRole("EMPLOYEES")
+
+                        // === RATING ROUTES ===
+
+                        .requestMatchers(HttpMethod.POST, "/ratings").hasRole("COMPANYMANAGERS")
+                        .requestMatchers(HttpMethod.GET, "/ratings/{id:[\\d]+}").hasAnyRole("COMPANYMANAGERS", "MANAGERS", "EMPLOYEES")
+                        .requestMatchers(HttpMethod.GET, "/ratings/kpi/{kpiId:[\\d]+}").hasAnyRole("COMPANYMANAGERS", "MANAGERS", "EMPLOYEES")
+                        .requestMatchers(HttpMethod.GET, "/ratings/cycle/{cycleId:[\\d]+}").hasAnyRole("COMPANYMANAGERS", "MANAGERS", "EMPLOYEES")
+                        .requestMatchers(HttpMethod.GET, "/ratings/ratedPerson/{ratedPersonId:[\\d]+}").hasAnyRole("COMPANYMANAGERS", "MANAGERS", "EMPLOYEES")
+                        .requestMatchers(HttpMethod.GET, "/ratings/cycle/{cycleId:[\\d]+}/ratedPerson/{ratedPersonId:[\\d]+}").hasAnyRole("COMPANYMANAGERS", "MANAGERS", "EMPLOYEES")
+                        .requestMatchers(HttpMethod.GET, "/ratings/cycle/rate/{cycleId:[\\d]+}").hasRole("COMPANYMANAGERS")
+                        .requestMatchers(HttpMethod.DELETE, "/ratings/{id:[\\d]+}").hasAnyRole("COMPANYMANAGERS", "MANAGERS", "EMPLOYEES")
+
+                                // === ROLE ROUTES ===
+
+                                .requestMatchers(HttpMethod.POST, "/roles").hasAnyRole("COMPANYMANAGERS", "MANAGERS", "EMPLOYEES")
+                                .requestMatchers(HttpMethod.GET, "/roles").hasAnyRole("COMPANYMANAGERS", "MANAGERS")
+                                .requestMatchers(HttpMethod.GET, "/roles/{name}/{level}").hasAnyRole("COMPANYMANAGERS", "MANAGERS")
+                                .requestMatchers(HttpMethod.GET, "/roles/{name}/{level}/kpis").hasRole("COMPANYMANAGERS")
+                                .requestMatchers(HttpMethod.DELETE, "/roles/{id:[\\d]+}").hasRole("COMPANYMANAGERS")
+
+
+
+
+                                .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
                         .successHandler((request, response, authentication) -> {
