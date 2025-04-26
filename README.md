@@ -4,17 +4,14 @@
 This project is a **Spring Cloud Gateway** application built with **Spring Boot**.  
 It uses **Spring Security** integrated with **LDAP** for authentication and role-based authorization to secure routes.
 
----
-
 ## Features
 
-- 🚀 API Gateway using **Spring Cloud Gateway**
-- 🔒 LDAP authentication using **Spring Security**
-- 🛡️ Role-based access control (RBAC)
-- 🔄 Dynamic route forwarding to backend services
-- 🔐 Basic login and security handling
+- API Gateway using **Spring Cloud Gateway**
+- LDAP authentication using **Spring Security**
+- Role-based access control (RBAC)
+- Dynamic route forwarding to backend services
+- Basic login and security handling
 
----
 
 ## Tech Stack
 
@@ -24,8 +21,6 @@ It uses **Spring Security** integrated with **LDAP** for authentication and role
 - Spring Security LDAP
 - Maven
 
----
-
 ## Getting Started
 
 ### Prerequisites
@@ -33,8 +28,6 @@ It uses **Spring Security** integrated with **LDAP** for authentication and role
 - Java 23 or later
 - Maven
 - An accessible LDAP server
-
----
 
 ## Running the Project
 
@@ -66,8 +59,6 @@ It uses **Spring Security** integrated with **LDAP** for authentication and role
 
    The Gateway will start at: [http://localhost:8080](http://localhost:8080)
 
----
-
 ## Example Route Configuration
 
 ```properties
@@ -79,8 +70,6 @@ spring.cloud.gateway.routes[1].id=user_route
 spring.cloud.gateway.routes[1].uri=http://localhost:8082
 spring.cloud.gateway.routes[1].predicates[0]=Path=/user/**
 ```
-
----
 
 ## Project Structure
 
@@ -98,11 +87,3 @@ spring.cloud.gateway.routes[1].predicates[0]=Path=/user/**
 ├── pom.xml
 └── README.md
 ```
-
----
-
-### Important Notes
-
-- Ensure that your LDAP server is running and accessible.
-- If there are any issues with the LDAP connection, check your connection URL, username, and password configurations in `application.properties`.
-- Customize the security configuration to meet your specific requirements.
