@@ -1,10 +1,10 @@
-package com.fawy_internship.user_ldap_adapter;
+package com.fawy_internship.gateway;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class UserLdapAdapterApplicationTests {
+class GatewayApplicationTests {
 
 	@Test
 	void contextLoads() {

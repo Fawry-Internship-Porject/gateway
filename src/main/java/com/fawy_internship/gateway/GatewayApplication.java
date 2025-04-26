@@ -1,13 +1,13 @@
-package com.fawy_internship.user_ldap_adapter;
+package com.fawy_internship.gateway;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class UserLdapAdapterApplication {
+public class GatewayApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(UserLdapAdapterApplication.class, args);
+		SpringApplication.run(GatewayApplication.class, args);
 	}
 
 }
