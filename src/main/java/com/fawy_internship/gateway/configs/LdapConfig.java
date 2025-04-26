@@ -1,4 +1,4 @@
-package com.fawy_internship.user_ldap_adapter.configs;
+package com.fawy_internship.gateway.configs;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
