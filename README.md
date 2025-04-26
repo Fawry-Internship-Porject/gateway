@@ -80,8 +80,10 @@ spring.cloud.gateway.routes[1].predicates[0]=Path=/user/**
 │   │   │   └── com.fawry_internship.gateway
 │   │   │       ├── GatewayApplication.java
 │   │   │       └── config
-│   │   │           ├── LdapConfig.java
-│   │   │           └── SecurityConfig.java
+│   │   │       |    ├── LdapConfig.java
+│   │   │       |    └── SecurityConfig.java
+│   │   │       └── dtos
+│   │   │            └── GenericResponse.java
 │   ├── resources
 │   │   └── application.properties
 ├── pom.xml
